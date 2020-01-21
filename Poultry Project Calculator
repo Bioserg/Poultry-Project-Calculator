@@ -1,0 +1,66 @@
+import datetime
+CurrentDate = datetime.date.today()
+fileName = "PoultryProjectCalculator.txt"
+accessMode = "a"
+PurchaseMethod = ""
+with open(fileName, accessMode) as myFile :
+  print(CurrentDate.strftime("          SUE'S CHICKENS  %A, %d %B %Y\n"))
+  print("Hello Customer, my name is Eusebio Antony, I invite you to use my calculator to make your shopping experience easier!\n")
+  UserName = input("Please Enter Your Full Name \n").title()
+  UserCurrency = ""
+  ChickenNumber = 0
+  AmountUSD = 5
+  AmountBOND = 80
+  AmountECOCASH = 90
+  while PurchaseMethod != "NOW" and PurchaseMethod != "LATER":
+    PurchaseMethod = input("Do you want to pay now or pay later?(Answer: Now or Later)\n").upper()
+  while True:
+    if PurchaseMethod == "NOW" :
+        while True :
+          try:
+            while not ChickenNumber > 0 :
+              ChickenNumber = int(input("How many chickens are you buying?(e.g 3)\n"))
+            break
+          except ValueError :
+            print("Please enter a whole number above zero")
+        UserCurrency = input("What currency are you using for payment?(USD/BOND/ECOCASH)\n").upper()
+        TotalCost = "0"
+        while UserCurrency != "USD" and UserCurrency != "BOND" and UserCurrency != "ECOCASH" :
+          print("Please enter from the shown currencies")
+          UserCurrency = input("What currency are you using for payment?(USD/BOND/ECOCASH)\n").upper()
+        if UserCurrency == "USD" :
+          TotalCost = AmountUSD * ChickenNumber
+          print("Your Total Cost is {0:.2f}".format(TotalCost) + " USD")
+        elif UserCurrency == "BOND" :
+          TotalCost = AmountBOND * ChickenNumber
+          print("Your Total Cost is {0:.2f}".format(TotalCost) + " Bond")
+        elif UserCurrency == "ECOCASH" :
+          TotalCost = AmountECOCASH * ChickenNumber
+          print("Your Total Cost is {0:.2f}".format(TotalCost) + " EcoCash")
+        myFile.write("\n" + "SALE")
+        myFile.write(" > " +  UserName + " bought " )
+        myFile.write(str(ChickenNumber) + " chickens ") 
+        myFile.write(CurrentDate.strftime("on %d %b %Y"))
+        myFile.write(" for " + str(TotalCost))
+        myFile.write(UserCurrency)
+    elif PurchaseMethod == "LATER" :
+        while True:
+          try:
+            while ChickenNumber <= 0:
+              ChickenNumber = int(input("How many chickens are you buying on credit?(e.g 3)\n"))
+            break
+          except ValueError :
+              print("Please enter a whole number above zero")
+        TotalCostUSD = AmountUSD * ChickenNumber
+        TotalCostBOND = AmountBOND * ChickenNumber
+        TotalCostECOCASH = AmountECOCASH * ChickenNumber
+        print("Your total cost will be " + str(TotalCostUSD) + "USD/" + str(TotalCostBOND) + "BOND/" + str(TotalCostECOCASH) + "ECOCASH")
+        myFile.write("\n" + "DEBT")
+        myFile.write(" > " + UserName + " took ")
+        myFile.write(str(ChickenNumber) + " chickens ") 
+        myFile.write(CurrentDate.strftime("on %d %b %Y"))
+        myFile.write(" and owes us " + str(TotalCostUSD) + "USD/" + str(TotalCostBOND) + "BOND/" + str(TotalCostECOCASH) + "ECOCASH" )
+    break
+  print("Thank you for shopping at Sue's Chickens " + UserName +  ", have a nice day!")
+
+    
